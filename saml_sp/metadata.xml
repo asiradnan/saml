@@ -1,0 +1,35 @@
+<ns0:EntityDescriptor xmlns:ns0="urn:oasis:names:tc:SAML:2.0:metadata" xmlns:ns1="urn:oasis:names:tc:SAML:metadata:algsupport" xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" entityID="http://localhost:8000/idp/metadata/">
+<ns0:Extensions>
+<ns1:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#ripemd160"/>
+<ns1:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+<ns1:DigestMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#sha224"/>
+<ns1:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+<ns1:DigestMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#sha384"/>
+<ns1:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha512"/>
+<ns1:SigningMethod Algorithm="http://www.w3.org/2000/09/xmldsig#dsa-sha1"/>
+<ns1:SigningMethod Algorithm="http://www.w3.org/2009/xmldsig11#dsa-sha256"/>
+<ns1:SigningMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha1"/>
+<ns1:SigningMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha224"/>
+<ns1:SigningMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256"/>
+<ns1:SigningMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha384"/>
+<ns1:SigningMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha512"/>
+<ns1:SigningMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-ripemd160"/>
+<ns1:SigningMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+<ns1:SigningMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha224"/>
+<ns1:SigningMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+<ns1:SigningMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha384"/>
+<ns1:SigningMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha512"/>
+</ns0:Extensions>
+<ns0:IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol" WantAuthnRequestsSigned="false">
+<ns0:KeyDescriptor use="signing">
+<ns2:KeyInfo>
+<ns2:X509Data>
+<ns2:X509Certificate>MIIDtTCCAp2gAwIBAgIUAqYvey+m2mq3IKu8yPIcx1pCXzAwDQYJKoZIhvcNAQELBQAwajELMAkGA1UEBhMCQkQxDjAMBgNVBAgMBURoYWthMQ4wDAYDVQQHDAVEaGFrYTERMA8GA1UECgwIcGVyc29uYWwxCjAIBgNVBAsMAXgxCjAIBgNVBAMMAXgxEDAOBgkqhkiG9w0BCQEWAXgwHhcNMjUwNzE0MTQyNjUzWhcNMjYwNzE0MTQyNjUzWjBqMQswCQYDVQQGEwJCRDEOMAwGA1UECAwFRGhha2ExDjAMBgNVBAcMBURoYWthMREwDwYDVQQKDAhwZXJzb25hbDEKMAgGA1UECwwBeDEKMAgGA1UEAwwBeDEQMA4GCSqGSIb3DQEJARYBeDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALZxDxdR+FglGMvQ8cIkZoGsbliWwrUYg8GweqnW4JA7vv/PsN2I2/itajy51MzmtfYAy0GlvkOi2nvB2+ng8q3gqq6ijI628oX7a19SsNAsC27iDH/5fdcfAIwW8tzXxbODEqxjBCzbcxLZUpzvKNn3BMaYacRRqOAZ/h6X0W0Gorov6Mdt8/dUH8DRlM26m7W6YZGYLDNJNrByhy2gtlFC4EKbqATNNAis1DgEW13qtnCBci6//+8PCVeeKmMQzxtF7zvknJgnRNnmrk+OLWwkQjm4Kg8x0A7HzIbo8oLXDVv1po0DAMxZtXCpn5HevjpnATis1NK6WgEI+PflQ5cCAwEAAaNTMFEwHQYDVR0OBBYEFHz+oNy2G1vzHkCkZpCRxQ9l9Q9+MB8GA1UdIwQYMBaAFHz+oNy2G1vzHkCkZpCRxQ9l9Q9+MA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAFZhfWciUP6KqdRwSPWUBX+spfKAQQQoDR+tPEenrrYazx2GrmoW2+JsyXDHvFcZ1PKkwKqGQMNdZaTK1gj+t5VW+vZvpeCYYZhzTyZXIgGELDVPMwBQbdNHJq2o2NnwjY1slmnyElz4v6/rz61kYUkK+7YDvlMGJ/T31Xv0q0AGBwLXmGKxHglrRdhFqMavE89ovP6EgTn0ZSLlZYiqIIZFiznU2YrU1Y/tv70vF9i1xP9qVwA7CiPzkGIxRNj0ewv6Pl9FpqVEHEnTsikCZnSjfBzMHnvp3r/vBbFdWJeR0FWkHGz8tlgofyir0Dt3DLhNL2qITorfco2YGYN74G8=</ns2:X509Certificate>
+</ns2:X509Data>
+</ns2:KeyInfo>
+</ns0:KeyDescriptor>
+<ns0:SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://localhost:8001/idp/slo/post/"/>
+<ns0:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://localhost:8001/idp/sso/post/"/>
+<ns0:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="http://localhost:8001/idp/sso/redirect/"/>
+</ns0:IDPSSODescriptor>
+</ns0:EntityDescriptor>
