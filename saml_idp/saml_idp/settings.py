@@ -25,14 +25,13 @@ SECRET_KEY = 'django-insecure-)r6hrw0sm2+tj312(l8u5npo_!3iqojojb1pu3qz7*dz*^_*cq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']  # Add hosts for your IdP
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'djangosaml2idp',
-    
     
     'django.contrib.admin',
     'django.contrib.auth',
@@ -57,7 +56,7 @@ ROOT_URLCONF = 'saml_idp.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR/'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -86,20 +85,20 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
+# AUTH_PASSWORD_VALIDATORS = [
+#     {
+#         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+#     },
+#     {
+#         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+#     },
+#     {
+#         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+#     },
+#     {
+#         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+#     },
+# ]
 
 
 # Internationalization
@@ -124,39 +123,59 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-SAML_IDP_SPCONFIG = {
-    "my_sp": {
-        "processor": "djangosaml2idp.processors.BaseProcessor",  # you can subclass for custom logic
-        "acs_url": "https://sp.example.com/saml/acs/",
-        "entity_id": "https://sp.example.com/metadata/",
-        "x509cert": "MIIC...YOUR_SP_PUBLIC_CERT...IDAQAB",  # your SP's cert
-        "logout_url": "https://sp.example.com/saml/logout/",
-    },
-}
-# Add these additional settings for SAML IdP
+# SAML IdP Configuration
 SAML_IDP_CONFIG = {
-    "xmlsec_binary": "/usr/bin/xmlsec1",  # Make sure xmlsec1 is installed
-    "entityid": "http://localhost:8001/idp/metadata/",
-    "service": {
-        "idp": {
-            "name": "My SAML IdP",
-            "endpoints": {
-                "single_sign_on_service": [
-                    ("http://localhost:8001/idp/sso/post/", "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"),
-                    ("http://localhost:8001/idp/sso/redirect/", "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"),
+    'debug': DEBUG,
+    'xmlsec_binary': '/usr/bin/xmlsec1',  # Adjust path as needed
+    'entityid': 'http://localhost:8001/idp/metadata/',  # Your IdP entity ID
+    'description': 'Local SAML IdP',
+    'service': {
+        'idp': {
+            'name': 'Django SAML IdP',
+            'endpoints': {
+                'single_sign_on_service': [
+                    ('http://localhost:8001/idp/sso/post/', 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST'),
+                    ('http://localhost:8001/idp/sso/redirect/', 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'),
                 ],
-                "single_logout_service": [
-                    ("http://localhost:8001/idp/slo/post/", "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"),
+                'single_logout_service': [
+                    ('http://localhost:8001/idp/slo/post/', 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST'),
+                    ('http://localhost:8001/idp/slo/redirect/', 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'),
                 ],
             },
+            'name_id_format': [
+                'urn:oasis:names:tc:SAML:2.0:nameid-format:persistent',
+                'urn:oasis:names:tc:SAML:2.0:nameid-format:transient',
+            ],
+            'sign_response': True,
+            'sign_assertion': True,
+        },
+    },
+    # You'll need to generate these certificates
+    'key_file': str(BASE_DIR / 'certs' / 'mykey.pem'),
+    'cert_file': str(BASE_DIR / 'certs' / 'mycert.pem'),
+}
+
+# Service Provider Configuration - SP running on port 8000
+SAML_IDP_SPCONFIG = {
+    "http://localhost:8000/saml2/metadata/": {
+        "processor": "saml_idp.custom_processor.CustomProcessor",  # Update path as needed
+        "acs_url": "http://localhost:8000/saml2/acs/",
+        "entity_id": "http://localhost:8000/saml2/metadata/",
+        "x509cert": """MIIDszCCApugAwIBAgIUFH16Tfe4JJr88qTcvDr6YETiFrUwDQYJKoZIhvcNAQELBQAwaTELMAkGA1UEBhMCVVMxDjAMBgNVBAgMBVN0YXRlMQ0wCwYDVQQHDARDaXR5MRUwEwYDVQQKDAxPcmdhbml6YXRpb24xEDAOBgNVBAsMB09yZ1VuaXQxEjAQBgNVBAMMCWxvY2FsaG9zdDAeFw0yNTA3MTQxNDQzMjFaFw0yNjA3MTQxNDQzMjFaMGkxCzAJBgNVBAYTAlVTMQ4wDAYDVQQIDAVTdGF0ZTENMAsGA1UEBwwEQ2l0eTEVMBMGA1UECgwMT3JnYW5pemF0aW9uMRAwDgYDVQQLDAdPcmdVbml0MRIwEAYDVQQDDAlsb2NhbGhvc3QwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCmudUw9FLUYKeFPZ49lJVK9W/zuw+t5ddL94rd5mMyi0K3qoMycsCbd+nlw4CPLNjV7HkD9ljOJ1HtP6G2uTKGpT7zA88Q4ThJQRvVd7TP7ndKUJ5GL7aMxKdGQMqzTS0X4WTP7NCzHrpggTp79cgYh0qiMYfuT/CYbtGL5uOdKlwnUK11PiTpawk418xxDhafukxURSUJy81FT37YKcF4JXLhjriz133koi7ZtZac2tkvt647NuIH/jNasaxKkLMeOyfLp3O8hY7ct4NrlHXFdj3jWNbPowejcMOPphq/UfGujGE/M5A0GLRUZ2FGIgGBhaT6plVs6EM5H2PNt5YlAgMBAAGjUzBRMB0GA1UdDgQWBBQ/pktAwQHMDiyRiHGreKKQQMvXVDAfBgNVHSMEGDAWgBQ/pktAwQHMDiyRiHGreKKQQMvXVDAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQA1NPxBOK/T4cLQWOBL/SJXbHgH3kaVauucyN01HdMYa1bRnbaXso3POnOIjJKAkYmd83taZRDRz7C1z5NTIU4CwnGk2fjqzitJdx5K4Emm16uy26N/8s07iYPGPKLU7rBSajkoY3q2bzOCukdyGuDOqBmzMpYRPfBXz4ElB2JqBsFxU9tLVWWAXfV2xSsRoxSAqKaGQVhID8I9t0he9hJHTIWIP0ymgOvCmw604xSPIjHbYpKzYIvhNWbCgUC9INWdkuDP/xUfWwBrpsDwMB4y/ukQ1ZrTueCazocjplUq0kkXysMVnB1IBFnZYR2si0CHyKuSq4td+NaX6859Av/y""",
+        "logout_url": "http://localhost:8000/saml2/sls/",  # Updated to match SP metadata
+        # Map attributes based on what the SP expects
+        "attribute_mapping": {
+            "uid": "username",       # SP requests 'uid' attribute
+            "mail": "email",         # SP requests 'mail' attribute
+            "eduPersonAffiliation": "groups",  # SP requests this (optional)
         }
     },
-    "key_file": str(BASE_DIR / "certs/mykey.pem"),
-    "cert_file": str(BASE_DIR / "certs/mycert.pem"),
-    "metadata": {
-        "local": [str(BASE_DIR / "certs/mycert.pem")],
-    },
 }
+
+# Also trust SP metadata from its endpoint so the IdP can discover the SP automatically
+SAML_IDP_REMOTE_METADATA = [
+    {"url": "http://localhost:8000/saml2/metadata/"},
+]
 
 # Add logging for debugging
 LOGGING = {
@@ -167,12 +186,38 @@ LOGGING = {
             'class': 'logging.StreamHandler',
         },
     },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
     'loggers': {
         'djangosaml2idp': {
             'handlers': ['console'],
             'level': 'DEBUG',
+            'propagate': False,
+        },
+        'saml2': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
         },
     },
 }
 
+LOGIN_URL = '/idp/login/'
+LOGIN_REDIRECT_URL = '/'
 
+# Additional SAML settings
+SAML_IDP_SHOW_USER_AGREEMENT_SCREEN = False  # Set to True if you want user consent screen
+
+# Add this for better debugging
+import logging
+logger = logging.getLogger(__name__)
+
+# Custom processor for debugging
+SAML_IDP_MULTIFACTOR = False

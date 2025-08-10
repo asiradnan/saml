@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-wz6!efywc%i=zz4q%&ijpqj0b@e=%(g4f0i-(-y@=5$k!a!7s0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -91,20 +91,20 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
+# AUTH_PASSWORD_VALIDATORS = [
+#     {
+#         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+#     },
+#     {
+#         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+#     },
+#     {
+#         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+#     },
+#     {
+#         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+#     },
+# ]
 
 
 # Internationalization
@@ -144,8 +144,10 @@ SAML_CONFIG = {
     'attribute_map_dir': os.path.join(BASE_DIR, 'attribute_maps'),
 
     'metadata': {
-        # If you have IdP metadata locally, keep this
-        'local': [os.path.join(BASE_DIR, 'metadata.xml')],
+        # Load IdP metadata from the IdP endpoint
+        'remote': [
+            {'url': 'http://localhost:8001/idp/metadata/'},
+        ],
     },
 
     'service': {
