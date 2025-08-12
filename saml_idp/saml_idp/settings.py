@@ -51,6 +51,26 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# Security Headers and Settings
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Session Security
+SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 3600  # 1 hour
+
+# CSRF Protection
+CSRF_COOKIE_SECURE = False  # Set to True in production with HTTPS
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = 'Lax'
+
 ROOT_URLCONF = 'saml_idp.urls'
 
 TEMPLATES = [
@@ -145,9 +165,10 @@ SAML_IDP_CONFIG = {
             'name_id_format': [
                 'urn:oasis:names:tc:SAML:2.0:nameid-format:persistent',
                 'urn:oasis:names:tc:SAML:2.0:nameid-format:transient',
+                'urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified',
             ],
-            'sign_response': True,
-            'sign_assertion': True,
+            'sign_response': False,
+            'sign_assertion': False,
         },
     },
     # You'll need to generate these certificates
@@ -156,21 +177,8 @@ SAML_IDP_CONFIG = {
 }
 
 # Service Provider Configuration - SP running on port 8000
-SAML_IDP_SPCONFIG = {
-    "http://localhost:8000/saml2/metadata/": {
-        "processor": "saml_idp.custom_processor.CustomProcessor",  # Update path as needed
-        "acs_url": "http://localhost:8000/saml2/acs/",
-        "entity_id": "http://localhost:8000/saml2/metadata/",
-        "x509cert": """MIIDszCCApugAwIBAgIUFH16Tfe4JJr88qTcvDr6YETiFrUwDQYJKoZIhvcNAQELBQAwaTELMAkGA1UEBhMCVVMxDjAMBgNVBAgMBVN0YXRlMQ0wCwYDVQQHDARDaXR5MRUwEwYDVQQKDAxPcmdhbml6YXRpb24xEDAOBgNVBAsMB09yZ1VuaXQxEjAQBgNVBAMMCWxvY2FsaG9zdDAeFw0yNTA3MTQxNDQzMjFaFw0yNjA3MTQxNDQzMjFaMGkxCzAJBgNVBAYTAlVTMQ4wDAYDVQQIDAVTdGF0ZTENMAsGA1UEBwwEQ2l0eTEVMBMGA1UECgwMT3JnYW5pemF0aW9uMRAwDgYDVQQLDAdPcmdVbml0MRIwEAYDVQQDDAlsb2NhbGhvc3QwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCmudUw9FLUYKeFPZ49lJVK9W/zuw+t5ddL94rd5mMyi0K3qoMycsCbd+nlw4CPLNjV7HkD9ljOJ1HtP6G2uTKGpT7zA88Q4ThJQRvVd7TP7ndKUJ5GL7aMxKdGQMqzTS0X4WTP7NCzHrpggTp79cgYh0qiMYfuT/CYbtGL5uOdKlwnUK11PiTpawk418xxDhafukxURSUJy81FT37YKcF4JXLhjriz133koi7ZtZac2tkvt647NuIH/jNasaxKkLMeOyfLp3O8hY7ct4NrlHXFdj3jWNbPowejcMOPphq/UfGujGE/M5A0GLRUZ2FGIgGBhaT6plVs6EM5H2PNt5YlAgMBAAGjUzBRMB0GA1UdDgQWBBQ/pktAwQHMDiyRiHGreKKQQMvXVDAfBgNVHSMEGDAWgBQ/pktAwQHMDiyRiHGreKKQQMvXVDAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQA1NPxBOK/T4cLQWOBL/SJXbHgH3kaVauucyN01HdMYa1bRnbaXso3POnOIjJKAkYmd83taZRDRz7C1z5NTIU4CwnGk2fjqzitJdx5K4Emm16uy26N/8s07iYPGPKLU7rBSajkoY3q2bzOCukdyGuDOqBmzMpYRPfBXz4ElB2JqBsFxU9tLVWWAXfV2xSsRoxSAqKaGQVhID8I9t0he9hJHTIWIP0ymgOvCmw604xSPIjHbYpKzYIvhNWbCgUC9INWdkuDP/xUfWwBrpsDwMB4y/ukQ1ZrTueCazocjplUq0kkXysMVnB1IBFnZYR2si0CHyKuSq4td+NaX6859Av/y""",
-        "logout_url": "http://localhost:8000/saml2/sls/",  # Updated to match SP metadata
-        # Map attributes based on what the SP expects
-        "attribute_mapping": {
-            "uid": "username",       # SP requests 'uid' attribute
-            "mail": "email",         # SP requests 'mail' attribute
-            "eduPersonAffiliation": "groups",  # SP requests this (optional)
-        }
-    },
-}
+# Use dynamic metadata loading instead of hardcoded certificates
+SAML_IDP_SPCONFIG = {}
 
 # Also trust SP metadata from its endpoint so the IdP can discover the SP automatically
 SAML_IDP_REMOTE_METADATA = [

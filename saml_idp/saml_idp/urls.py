@@ -25,4 +25,5 @@ urlpatterns = [
     path('idp/login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('', views.home, name='home'),
     path('protected/', views.protected, name='protected'),
+    path('health/', views.health_check, name='health_check'),
 ]
