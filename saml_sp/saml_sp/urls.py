@@ -7,4 +7,5 @@ urlpatterns = [
     path('saml2/', include('djangosaml2.urls')),
     path('', views.home, name='home'),
     path('protected/', views.protected, name='protected'),
+    path('health/', views.health_check, name='health_check'),
 ]

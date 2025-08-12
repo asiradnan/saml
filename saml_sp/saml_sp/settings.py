@@ -54,8 +54,28 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',  
+    'djangosaml2.middleware.SamlSessionMiddleware',
 ]
-MIDDLEWARE.append('djangosaml2.middleware.SamlSessionMiddleware')
+
+# Security Headers and Settings
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_HSTS_SECONDS = 31536000 if not DEBUG else 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Session Security  
+SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 3600  # 1 hour
+
+# CSRF Protection
+CSRF_COOKIE_SECURE = False  # Set to True in production with HTTPS
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SAMESITE = 'Lax'
 
 ROOT_URLCONF = 'saml_sp.urls'
 
@@ -154,6 +174,9 @@ SAML_CONFIG = {
         'sp': {
             'name': 'Django SAML SP',
             'name_id_format': NAMEID_FORMAT_PERSISTENT,
+            'authn_requests_signed': False,
+            'want_assertions_signed': False,
+            'want_response_signed': False,
             'endpoints': {
                 'assertion_consumer_service': [
                     ('http://localhost:8000/saml2/acs/', saml2.BINDING_HTTP_POST),
