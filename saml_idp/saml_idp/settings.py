@@ -222,6 +222,12 @@ LOGIN_REDIRECT_URL = '/'
 
 # Additional SAML settings
 SAML_IDP_SHOW_USER_AGREEMENT_SCREEN = False  # Set to True if you want user consent screen
+SAML_IDP_REQUIRE_BINDING = False  # Allow flexible binding
+SAML_IDP_ENFORCE_SIGNATURE = False  # Disable signature enforcement
+
+# Session settings for IdP
+SESSION_COOKIE_AGE = 86400  # 24 hours
+SESSION_SAVE_EVERY_REQUEST = True
 
 # Add this for better debugging
 import logging

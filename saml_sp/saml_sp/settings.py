@@ -177,6 +177,8 @@ SAML_CONFIG = {
             'authn_requests_signed': False,
             'want_assertions_signed': False,
             'want_response_signed': False,
+            'want_assertions_or_response_signed': False,
+            'allow_unsolicited': True,  # Allow unsolicited responses for development
             'endpoints': {
                 'assertion_consumer_service': [
                     ('http://localhost:8000/saml2/acs/', saml2.BINDING_HTTP_POST),
@@ -211,6 +213,12 @@ SAML_CONFIG = {
         'cert_file': os.path.join(BASE_DIR, 'certificates', 'sp_certificate.pem'),
     }],
 
+    # Additional signature verification settings
+    'only_use_keys_in_metadata': False,
+    'logout_requests_signed': False,
+    'logout_responses_signed': False,
+    'verify_saml_signature': False,  # Disable signature verification completely
+    
     'valid_for': 24,
 }
 
@@ -228,3 +236,19 @@ LOGOUT_REDIRECT_URL = '/'
 
 # Session settings
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 86400  # 24 hours
+SESSION_COOKIE_HTTPONLY = True
+SESSION_SAVE_EVERY_REQUEST = True
+
+# SAML2 specific settings
+SAML_ATTRIBUTE_MAPPING = {
+    'uid': ('username', ),
+    'mail': ('email', ),
+    'first_name': ('first_name', ),
+    'last_name': ('last_name', ),
+}
+
+# Django SAML2 settings
+SAML_CREATE_UNKNOWN_USER = True
+SAML_DJANGO_USER_MAIN_ATTRIBUTE = 'username'
+SAML_USE_NAME_ID_AS_USERNAME = True
