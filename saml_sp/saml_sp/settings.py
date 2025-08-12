@@ -55,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',  
     'djangosaml2.middleware.SamlSessionMiddleware',
+    'saml_sp.middleware.SAMLAttributeProcessorMiddleware',  # Our custom SAML processor
 ]
 
 # Security Headers and Settings
@@ -270,31 +271,43 @@ SAML_DJANGO_USER_MAIN_ATTRIBUTE = 'username'
 SAML_USE_NAME_ID_AS_USERNAME = True
 
 # SAML session settings - ensure attributes are stored in session
-SAML_SESSION_STORE = True
-SAML_CLEAN_USER_DATA = True
-
-# Ensure SAML attributes are accessible in views
 SAML_IGNORE_AUTHENTICATED_USERS_ON_LOGIN = False
 
-# Custom attribute processor to populate user fields
-def custom_attribute_processor(user, attributes):
-    """
-    Custom function to process SAML attributes and update user fields
-    """
-    if 'first_name' in attributes and attributes['first_name']:
-        user.first_name = attributes['first_name'][0] if isinstance(attributes['first_name'], list) else attributes['first_name']
-    
-    if 'last_name' in attributes and attributes['last_name']:
-        user.last_name = attributes['last_name'][0] if isinstance(attributes['last_name'], list) else attributes['last_name']
-    
-    if 'email' in attributes and attributes['email']:
-        user.email = attributes['email'][0] if isinstance(attributes['email'], list) else attributes['email']
-    elif 'mail' in attributes and attributes['mail']:
-        user.email = attributes['mail'][0] if isinstance(attributes['mail'], list) else attributes['mail']
-    
-    # Save the user with updated fields
-    user.save()
-    return user
+# SAML User Attributes - will be stored in session
+SAML_USER_ATTRIBUTES_SESSION_KEY = 'samlUserdata'
 
-# Set the custom attribute processor
-SAML_ATTRIBUTE_PROCESSOR = 'saml_sp.settings.custom_attribute_processor'
+# Enable debug mode for SAML
+import logging
+SAML_DEBUG = True
+
+# Configure SAML logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'djangosaml2': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'saml2': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}
+
+# Signal handlers will be loaded by middleware
