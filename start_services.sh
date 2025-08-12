@@ -9,7 +9,7 @@ echo ""
 # Start IdP on port 8001
 echo "Starting IdP on port 8001..."
 cd saml_idp
-python manage.py runserver 8001 &
+python3 manage.py runserver 8001 &
 IDP_PID=$!
 cd ..
 
@@ -19,7 +19,7 @@ sleep 3
 # Start SP on port 8000
 echo "Starting SP on port 8000..."
 cd saml_sp
-python manage.py runserver 8000 &
+python3 manage.py runserver 8000 &
 SP_PID=$!
 cd ..
 

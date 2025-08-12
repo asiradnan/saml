@@ -179,6 +179,8 @@ SAML_CONFIG = {
             'want_response_signed': False,
             'want_assertions_or_response_signed': False,
             'allow_unsolicited': True,  # Allow unsolicited responses for development
+            'logout_requests_signed': False,
+            'logout_responses_signed': False,
             'endpoints': {
                 'assertion_consumer_service': [
                     ('http://localhost:8000/saml2/acs/', saml2.BINDING_HTTP_POST),
@@ -189,7 +191,12 @@ SAML_CONFIG = {
                 ],
             },
             'required_attributes': ['uid', 'mail'],
-            'optional_attributes': ['eduPersonAffiliation'],
+            'optional_attributes': [
+                'eduPersonAffiliation', 'cn', 'sn', 'givenName', 'displayName',
+                'accountStatus', 'staffStatus', 'adminStatus', 'memberSince', 
+                'lastLogin', 'memberOf', 'userPermissions', 'department', 
+                'title', 'telephoneNumber', 'organization'
+            ],
 
             # IdP configuration: URLs on port 8001 (IdP host)
             'idp': {
@@ -244,11 +251,50 @@ SESSION_SAVE_EVERY_REQUEST = True
 SAML_ATTRIBUTE_MAPPING = {
     'uid': ('username', ),
     'mail': ('email', ),
+    'cn': ('first_name', ),
+    'sn': ('last_name', ),
+    'givenName': ('first_name', ),
+    'displayName': ('get_full_name', ),
+    # These are the actual attribute names being sent by the IdP
     'first_name': ('first_name', ),
     'last_name': ('last_name', ),
+    'email': ('email', ),
+    'is_active': ('is_active', ),
+    'is_staff': ('is_staff', ),
+    'is_superuser': ('is_superuser', ),
 }
 
 # Django SAML2 settings
 SAML_CREATE_UNKNOWN_USER = True
 SAML_DJANGO_USER_MAIN_ATTRIBUTE = 'username'
 SAML_USE_NAME_ID_AS_USERNAME = True
+
+# SAML session settings - ensure attributes are stored in session
+SAML_SESSION_STORE = True
+SAML_CLEAN_USER_DATA = True
+
+# Ensure SAML attributes are accessible in views
+SAML_IGNORE_AUTHENTICATED_USERS_ON_LOGIN = False
+
+# Custom attribute processor to populate user fields
+def custom_attribute_processor(user, attributes):
+    """
+    Custom function to process SAML attributes and update user fields
+    """
+    if 'first_name' in attributes and attributes['first_name']:
+        user.first_name = attributes['first_name'][0] if isinstance(attributes['first_name'], list) else attributes['first_name']
+    
+    if 'last_name' in attributes and attributes['last_name']:
+        user.last_name = attributes['last_name'][0] if isinstance(attributes['last_name'], list) else attributes['last_name']
+    
+    if 'email' in attributes and attributes['email']:
+        user.email = attributes['email'][0] if isinstance(attributes['email'], list) else attributes['email']
+    elif 'mail' in attributes and attributes['mail']:
+        user.email = attributes['mail'][0] if isinstance(attributes['mail'], list) else attributes['mail']
+    
+    # Save the user with updated fields
+    user.save()
+    return user
+
+# Set the custom attribute processor
+SAML_ATTRIBUTE_PROCESSOR = 'saml_sp.settings.custom_attribute_processor'
