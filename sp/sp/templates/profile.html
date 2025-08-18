@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Profile - SAML SP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .header {
+            background: #f5f5f5;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .profile-section {
+            background: #fff3cd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #ffc107;
+        }
+        .saml-section {
+            background: #e8f4f8;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #007cba;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #007cba;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: #005a87;
+        }
+        .btn-logout {
+            background: #dc3545;
+        }
+        .btn-logout:hover {
+            background: #c82333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        th, td {
+            padding: 8px 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        code {
+            background: #f0f0f0;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        .nav {
+            margin-bottom: 20px;
+        }
+        .nav a {
+            margin-right: 15px;
+            color: #007cba;
+            text-decoration: none;
+        }
+        .nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="/">Home</a>
+        <a href="/profile/">Profile</a>
+        <a href="/logout/">Logout</a>
+        <a href="/admin/">Admin</a>
+        <a href="/saml2/metadata/">Metadata</a>
+    </div>
+
+    <div class="header">
+        <h1>👤 User Profile</h1>
+        <p>SAML-authenticated user information</p>
+    </div>
+
+    <div class="profile-section">
+        <h2>Django User Information</h2>
+        <table>
+            <tr>
+                <th>Attribute</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td><strong>Username</strong></td>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <td><strong>Email</strong></td>
+                <td>{{ user.email|default:"Not provided" }}</td>
+            </tr>
+            <tr>
+                <td><strong>First Name</strong></td>
+                <td>{{ user.first_name|default:"Not provided" }}</td>
+            </tr>
+            <tr>
+                <td><strong>Last Name</strong></td>
+                <td>{{ user.last_name|default:"Not provided" }}</td>
+            </tr>
+            <tr>
+                <td><strong>Full Name</strong></td>
+                <td>{{ user.get_full_name|default:"Not provided" }}</td>
+            </tr>
+            <tr>
+                <td><strong>Staff Status</strong></td>
+                <td>{{ user.is_staff|yesno:"Yes,No" }}</td>
+            </tr>
+            <tr>
+                <td><strong>Superuser</strong></td>
+                <td>{{ user.is_superuser|yesno:"Yes,No" }}</td>
+            </tr>
+            <tr>
+                <td><strong>Active</strong></td>
+                <td>{{ user.is_active|yesno:"Yes,No" }}</td>
+            </tr>
+            <tr>
+                <td><strong>Date Joined</strong></td>
+                <td>{{ user.date_joined }}</td>
+            </tr>
+            <tr>
+                <td><strong>Last Login</strong></td>
+                <td>{{ user.last_login|default:"Never" }}</td>
+            </tr>
+        </table>
+    </div>
+
+    {% if saml_session %}
+    <div class="saml-section">
+        <h2>SAML Session Information</h2>
+        <p>Details from the SAML authentication response:</p>
+        <table>
+            {% for key, value in saml_session.items %}
+            <tr>
+                <td><strong>{{ key }}</strong></td>
+                <td><code>{{ value }}</code></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2">No SAML session data available</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endif %}
+
+    <div class="saml-section">
+        <h2>Authentication Method</h2>
+        <p>✅ This user was authenticated via <strong>SAML 2.0 SSO</strong></p>
+        <p>The user account was automatically created/updated based on SAML attributes from the Identity Provider.</p>
+        
+        <h3>Attribute Mapping</h3>
+        <p>The following SAML attributes are mapped to Django user fields:</p>
+        <ul>
+            <li><code>uid</code> → username</li>
+            <li><code>mail</code> → email</li>
+            <li><code>cn</code> → first_name</li>
+            <li><code>sn</code> → last_name</li>
+        </ul>
+    </div>
+
+    <div style="text-align: center; margin: 20px 0;">
+        <a href="/" class="btn">Back to Home</a>
+        <a href="/logout/" class="btn btn-logout">Logout</a>
+    </div>
+</body>
+</html>

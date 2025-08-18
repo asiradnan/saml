@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SAML IdP Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .info-section {
+            background: #f5f5f5;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .endpoint {
+            background: #e8f4f8;
+            padding: 10px;
+            margin: 5px 0;
+            border-left: 4px solid #007cba;
+        }
+        code {
+            background: #f0f0f0;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .nav {
+            margin-bottom: 20px;
+        }
+        .nav a {
+            margin-right: 15px;
+            color: #007cba;
+            text-decoration: none;
+        }
+        .nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="/admin/">Admin</a>
+        <a href="/login/">Login</a>
+        <a href="/user-info/">User Info</a>
+        <a href="/idp/metadata/">Metadata</a>
+    </div>
+
+    <h1>SAML Identity Provider Information</h1>
+    
+    <div class="info-section">
+        <h2>Entity Information</h2>
+        <p><strong>Entity ID:</strong> <code>{{ entity_id }}</code></p>
+        <p><strong>Metadata URL:</strong> <a href="{{ metadata_url }}" target="_blank">{{ metadata_url }}</a></p>
+    </div>
+    
+    <div class="info-section">
+        <h2>Single Sign-On (SSO) Endpoints</h2>
+        <div class="endpoint">
+            <strong>HTTP-POST:</strong> <code>{{ sso_url_post }}</code>
+        </div>
+        <div class="endpoint">
+            <strong>HTTP-Redirect:</strong> <code>{{ sso_url_redirect }}</code>
+        </div>
+    </div>
+    
+    <div class="info-section">
+        <h2>Single Logout (SLO) Endpoints</h2>
+        <div class="endpoint">
+            <strong>HTTP-POST:</strong> <code>{{ slo_url_post }}</code>
+        </div>
+        <div class="endpoint">
+            <strong>HTTP-Redirect:</strong> <code>{{ slo_url_redirect }}</code>
+        </div>
+    </div>
+    
+    <div class="info-section">
+        <h2>Configuration Notes</h2>
+        <ul>
+            <li>This IdP supports both HTTP-POST and HTTP-Redirect bindings</li>
+            <li>Responses and assertions are signed</li>
+            <li>Name ID formats: Email Address and Unspecified</li>
+            <li>Authentication requests should be signed</li>
+            <li>Certificates are self-signed (for development only)</li>
+        </ul>
+    </div>
+    
+    <div class="info-section">
+        <h2>Service Provider Configuration</h2>
+        <p>To configure a Service Provider to use this IdP, you'll need:</p>
+        <ol>
+            <li>The metadata XML (available at <a href="{{ metadata_url }}">{{ metadata_url }}</a>)</li>
+            <li>The SSO endpoint URLs listed above</li>
+            <li>The public certificate for signature verification</li>
+        </ol>
+    </div>
+</body>
+</html>
