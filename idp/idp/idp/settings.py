@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-9o7ks5d+dyku@bx0o-tom)8+_68do^vs2*h8n%3cs)14-h%^=x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*','localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['idp.asiradnan.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -129,7 +129,14 @@ from saml2.saml import NAMEID_FORMAT_EMAILADDRESS, NAMEID_FORMAT_UNSPECIFIED
 from saml2.sigver import get_xmlsec_binary
 
 LOGIN_URL = '/login/'
-BASE_URL = 'http://localhost:9000/idp'
+BASE_URL = 'https://idp.asiradnan.com'
+
+# Production security settings
+SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 
 SAML_IDP_CONFIG = {
     'debug' : DEBUG,
@@ -142,12 +149,12 @@ SAML_IDP_CONFIG = {
             'name': 'Django localhost IdP',
             'endpoints': {
                 'single_sign_on_service': [
-                    ('http://localhost:9000/idp/sso/post/', saml2.BINDING_HTTP_POST),
-                    ('http://localhost:9000/idp/sso/redirect/', saml2.BINDING_HTTP_REDIRECT),
+                    ('https://idp.asiradnan.com/sso/post/', saml2.BINDING_HTTP_POST),
+                    ('https://idp.asiradnan.com/sso/redirect/', saml2.BINDING_HTTP_REDIRECT),
                 ],
                 "single_logout_service": [
-                    ("http://localhost:9000/idp/slo/post/", saml2.BINDING_HTTP_POST),
-                    ("http://localhost:9000/idp/slo/redirect/", saml2.BINDING_HTTP_REDIRECT)
+                    ("https://idp.asiradnan.com/slo/post/", saml2.BINDING_HTTP_POST),
+                    ("https://idp.asiradnan.com/slo/redirect/", saml2.BINDING_HTTP_REDIRECT)
                 ],
             },
             'name_id_format': [NAMEID_FORMAT_EMAILADDRESS, NAMEID_FORMAT_UNSPECIFIED],
@@ -171,7 +178,7 @@ SAML_IDP_CONFIG = {
 # Additional SAML IdP Settings
 SAML_IDP_SPCONFIG = {
     # Service Provider configuration
-    'http://localhost:8000/saml2/metadata/': {
+    'https://istiaque.me/saml2/metadata/': {
         'processor': 'idp_app.processors.CustomSAMLProcessor',
         'attribute_mapping': {
             'email': 'email',

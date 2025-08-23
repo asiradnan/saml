@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-4sgw@-8gxj$tfku@9ztp!+c!ixrt0)(-gl9ofzihncgd!ppzif
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['istiaque.me', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -153,16 +153,23 @@ SAML_ATTRIBUTE_MAPPING = {
 SAML_CREATE_UNKNOWN_USER = True
 SAML_USE_NAME_ID_AS_USERNAME = True  # Use NameID as username when attributes are missing
 
-BASE_URL = 'http://localhost:8000'
+BASE_URL = 'https://istiaque.me'
 LOGIN_URL = '/saml2/login/'
 LOGIN_REDIRECT_URL = '/'
 
 # Session configuration for SAML
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_COOKIE_AGE = 3600  # 1 hour
-SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
+SESSION_COOKIE_SECURE = True  # Enable for HTTPS production
 SESSION_COOKIE_HTTPONLY = True
 SESSION_SAVE_EVERY_REQUEST = True
+
+# Production security settings
+SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 
 SAML_CONFIG = {
     # full path to the xmlsec1 binary program
@@ -215,14 +222,14 @@ SAML_CONFIG = {
                 # present in our metadata
 
                 # the keys of this dictionary are entity ids
-                'http://localhost:9000/idp/metadata': {
+                'https://idp.asiradnan.com/metadata': {
                     'single_sign_on_service': {
-                        saml2.BINDING_HTTP_REDIRECT: 'http://localhost:9000/idp/sso/redirect/',
-                        saml2.BINDING_HTTP_POST: 'http://localhost:9000/idp/sso/post/',
+                        saml2.BINDING_HTTP_REDIRECT: 'https://idp.asiradnan.com/sso/redirect/',
+                        saml2.BINDING_HTTP_POST: 'https://idp.asiradnan.com/sso/post/',
                     },
                     'single_logout_service': {
-                        saml2.BINDING_HTTP_REDIRECT: 'http://localhost:9000/idp/slo/redirect/',
-                        saml2.BINDING_HTTP_POST: 'http://localhost:9000/idp/slo/post/',
+                        saml2.BINDING_HTTP_REDIRECT: 'https://idp.asiradnan.com/slo/redirect/',
+                        saml2.BINDING_HTTP_POST: 'https://idp.asiradnan.com/slo/post/',
                     },
                 },
             },
@@ -259,9 +266,9 @@ SAML_CONFIG = {
     ],
     # you can set multilanguage information here
     'organization': {
-        'name': [('Example SP', 'en')],
-        'display_name': [('Example SP', 'en')],
-        'url': [('http://www.example.com', 'en')],
+        'name': [('Istiaque.me SP', 'en')],
+        'display_name': [('Istiaque.me Service Provider', 'en')],
+        'url': [('https://istiaque.me', 'en')],
     },
     'valid_for': 24,  # how long is our metadata valid
 }
