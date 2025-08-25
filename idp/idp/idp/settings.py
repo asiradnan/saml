@@ -189,8 +189,20 @@ SAML_IDP_CONFIG = {
 
 # Additional SAML IdP Settings
 SAML_IDP_SPCONFIG = {
-    # Service Provider configuration
+    # Service Provider 1 - istiaque.me
     'https://istiaque.me/saml2/metadata/': {
+        'processor': 'idp_app.processors.CustomSAMLProcessor',
+        'attribute_mapping': {
+            'email': 'email',
+            'first_name': 'first_name',
+            'last_name': 'last_name',
+            'username': 'username',
+            'is_staff': 'is_staff',
+            'is_superuser': 'is_superuser',
+        }
+    },
+    # Service Provider 2 - asiradnan.me
+    'https://asiradnan.me/saml2/metadata/': {
         'processor': 'idp_app.processors.CustomSAMLProcessor',
         'attribute_mapping': {
             'email': 'email',
