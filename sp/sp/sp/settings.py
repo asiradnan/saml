@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-4sgw@-8gxj$tfku@9ztp!+c!ixrt0)(-gl9ofzihncgd!ppzif'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['istiaque.me', 'localhost', '127.0.0.1']
 
@@ -171,6 +171,12 @@ SECURE_HSTS_SECONDS = 31536000  # 1 year
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 
+# Additional security settings for production
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+CSRF_COOKIE_SECURE = True
+
 SAML_CONFIG = {
     # full path to the xmlsec1 binary program
     'xmlsec_binary': get_xmlsec_binary(['/opt/local/bin', '/usr/bin/xmlsec1']),
@@ -242,7 +248,7 @@ SAML_CONFIG = {
     },
 
     # set to 1 to output debugging information
-    'debug': 1,
+    'debug': 0,  # Disable debug for production
 
     # Signing - SP's own certificates for signing outgoing requests
     'key_file': str(BASE_DIR / 'certificates/sp_private.key'),  # private part

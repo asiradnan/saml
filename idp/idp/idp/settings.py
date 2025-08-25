@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-9o7ks5d+dyku@bx0o-tom)8+_68do^vs2*h8n%3cs)14-h%^=x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['idp.asiradnan.com', 'localhost', '127.0.0.1']
 
@@ -138,8 +138,15 @@ SECURE_HSTS_SECONDS = 31536000  # 1 year
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 
+# Additional security settings for production
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
 SAML_IDP_CONFIG = {
-    'debug' : DEBUG,
+    'debug' : False,  # Disable debug for production
     'xmlsec_binary': get_xmlsec_binary(['/opt/local/bin', '/usr/bin/xmlsec1']),
     'entityid': '%s/metadata' % BASE_URL,
     'description': 'Example IdP setup',
