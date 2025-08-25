@@ -214,8 +214,8 @@ SAML_CONFIG = {
             'optional_attributes': ['uid', 'mail', 'cn', 'sn', 'username', 'email', 'first_name', 'last_name'],
 
             # Enable request signing - THIS FIXES THE SIGNATURE ERROR
-            'authn_requests_signed': True,
-            'logout_requests_signed': True,
+            'authn_requests_signed': False,  # Temporarily disable for debugging
+            'logout_requests_signed': False,  # Temporarily disable for debugging
             'want_assertions_signed': False,  # Temporarily disable for testing
             'want_response_signed': False,    # Temporarily disable for testing
             'want_assertions_or_response_signed': False,  # Allow unsigned responses
@@ -230,12 +230,12 @@ SAML_CONFIG = {
                 # the keys of this dictionary are entity ids
                 'https://idp.asiradnan.com/metadata': {
                     'single_sign_on_service': {
-                        saml2.BINDING_HTTP_REDIRECT: 'https://idp.asiradnan.com/sso/redirect/',
-                        saml2.BINDING_HTTP_POST: 'https://idp.asiradnan.com/sso/post/',
+                        saml2.BINDING_HTTP_REDIRECT: 'https://idp.asiradnan.com/idp/sso/redirect/',
+                        saml2.BINDING_HTTP_POST: 'https://idp.asiradnan.com/idp/sso/post/',
                     },
                     'single_logout_service': {
-                        saml2.BINDING_HTTP_REDIRECT: 'https://idp.asiradnan.com/slo/redirect/',
-                        saml2.BINDING_HTTP_POST: 'https://idp.asiradnan.com/slo/post/',
+                        saml2.BINDING_HTTP_REDIRECT: 'https://idp.asiradnan.com/idp/slo/redirect/',
+                        saml2.BINDING_HTTP_POST: 'https://idp.asiradnan.com/idp/slo/post/',
                     },
                 },
             },
@@ -248,7 +248,7 @@ SAML_CONFIG = {
     },
 
     # set to 1 to output debugging information
-    'debug': 0,  # Disable debug for production
+    'debug': 1,  # Enable debug for troubleshooting
 
     # Signing - SP's own certificates for signing outgoing requests
     'key_file': str(BASE_DIR / 'certificates/sp_private.key'),  # private part

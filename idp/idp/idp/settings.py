@@ -146,7 +146,7 @@ CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
 SAML_IDP_CONFIG = {
-    'debug' : False,  # Disable debug for production
+    'debug' : True,  # Enable debug for troubleshooting
     'xmlsec_binary': get_xmlsec_binary(['/opt/local/bin', '/usr/bin/xmlsec1']),
     'entityid': '%s/metadata' % BASE_URL,
     'description': 'Example IdP setup',
@@ -156,18 +156,18 @@ SAML_IDP_CONFIG = {
             'name': 'Django localhost IdP',
             'endpoints': {
                 'single_sign_on_service': [
-                    ('https://idp.asiradnan.com/sso/post/', saml2.BINDING_HTTP_POST),
-                    ('https://idp.asiradnan.com/sso/redirect/', saml2.BINDING_HTTP_REDIRECT),
+                    ('https://idp.asiradnan.com/idp/sso/post/', saml2.BINDING_HTTP_POST),
+                    ('https://idp.asiradnan.com/idp/sso/redirect/', saml2.BINDING_HTTP_REDIRECT),
                 ],
                 "single_logout_service": [
-                    ("https://idp.asiradnan.com/slo/post/", saml2.BINDING_HTTP_POST),
-                    ("https://idp.asiradnan.com/slo/redirect/", saml2.BINDING_HTTP_REDIRECT)
+                    ("https://idp.asiradnan.com/idp/slo/post/", saml2.BINDING_HTTP_POST),
+                    ("https://idp.asiradnan.com/idp/slo/redirect/", saml2.BINDING_HTTP_REDIRECT)
                 ],
             },
             'name_id_format': [NAMEID_FORMAT_EMAILADDRESS, NAMEID_FORMAT_UNSPECIFIED],
             'sign_response': True,
             'sign_assertion': True,
-            'want_authn_requests_signed': True,
+            'want_authn_requests_signed': False,  # Temporarily disable for debugging
         },
     },
 
@@ -180,6 +180,11 @@ SAML_IDP_CONFIG = {
         'cert_file': str(BASE_DIR / 'certificates/public.cert'),
     }],
     'valid_for': 365 * 24,
+    
+    # Add metadata configuration to trust SP certificates
+    'metadata': {
+        'local': [str(BASE_DIR / 'sp_metadata.xml')],
+    },
 }
 
 # Additional SAML IdP Settings
