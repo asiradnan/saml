@@ -1,0 +1,295 @@
+nohup: ignoring input
+[02/Sep/2025 14:32:17] "GET / HTTP/1.1" 200 4396
+Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING:django.request:Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[02/Sep/2025 14:32:24] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 2952
+WARNING:saml2.client_base:The SAML service provider accepts unsigned SAML Responses and Assertions. This configuration is insecure. Consider setting want_assertions_signed, want_response_signed or want_assertions_or_response_signed configuration options.
+/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/saml2/client_base.py:193: UserWarning: The SAML service provider accepts unsigned SAML Responses and Assertions. This configuration is insecure. Consider setting want_assertions_signed, want_response_signed or want_assertions_or_response_signed configuration options.
+  _warn(warn_msg)
+[02/Sep/2025 14:32:28] "GET /saml2/login/ HTTP/1.1" 200 1198
+Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING:django.request:Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[02/Sep/2025 14:32:28] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 2952
+[02/Sep/2025 14:33:39] "GET / HTTP/1.1" 200 4396
+WARNING:saml2.client_base:The SAML service provider accepts unsigned SAML Responses and Assertions. This configuration is insecure. Consider setting want_assertions_signed, want_response_signed or want_assertions_or_response_signed configuration options.
+[02/Sep/2025 14:33:51] "GET /saml2/login/ HTTP/1.1" 200 1198
+[02/Sep/2025 14:37:16] "GET /saml2/metadata/ HTTP/1.1" 200 6932
+[02/Sep/2025 14:38:50] "GET /saml2/metadata/ HTTP/1.1" 200 6932
+WARNING:saml2.client_base:The SAML service provider accepts unsigned SAML Responses and Assertions. This configuration is insecure. Consider setting want_assertions_signed, want_response_signed or want_assertions_or_response_signed configuration options.
+[02/Sep/2025 14:39:44] "HEAD /saml2/login/ HTTP/1.1" 200 0
+[02/Sep/2025 14:41:01] "GET / HTTP/1.1" 200 4396
+WARNING:saml2.client_base:The SAML service provider accepts unsigned SAML Responses and Assertions. This configuration is insecure. Consider setting want_assertions_signed, want_response_signed or want_assertions_or_response_signed configuration options.
+[02/Sep/2025 14:41:35] "GET /saml2/login/ HTTP/1.1" 200 1198
+[02/Sep/2025 14:46:31] "GET /saml2/metadata/ HTTP/1.1" 200 6932
+[02/Sep/2025 14:51:37] "GET / HTTP/1.1" 200 4396
+WARNING:saml2.client_base:The SAML service provider accepts unsigned SAML Responses and Assertions. This configuration is insecure. Consider setting want_assertions_signed, want_response_signed or want_assertions_or_response_signed configuration options.
+[02/Sep/2025 14:57:18] "GET / HTTP/1.1" 200 4396
+Internal Server Error: /saml2/login/
+Traceback (most recent call last):
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/urllib3/connection.py", line 565, in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/http/client.py", line 1428, in getresponse
+    response.begin()
+  File "/usr/lib/python3.12/http/client.py", line 331, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/http/client.py", line 300, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/urllib3/util/retry.py", line 474, in increment
+    raise reraise(type(error), error, _stacktrace)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/urllib3/util/util.py", line 38, in reraise
+    raise value.with_traceback(tb)
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/urllib3/connection.py", line 565, in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/http/client.py", line 1428, in getresponse
+    response.begin()
+  File "/usr/lib/python3.12/http/client.py", line 331, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/http/client.py", line 300, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/saml2/httpbase.py", line 233, in send
+    r = requests.request(method, url, **_kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/requests/adapters.py", line 682, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/django/views/generic/base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/djangosaml2/views.py", line 89, in wrapper
+    return csp_handler(view)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/django/views/generic/base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/djangosaml2/views.py", line 221, in get
+    conf = self.get_sp_config(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/djangosaml2/views.py", line 127, in get_sp_config
+    return get_config(self.get_config_loader_path(request), request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/djangosaml2/conf.py", line 71, in get_config
+    return config_loader(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/djangosaml2/conf.py", line 48, in config_settings_loader
+    conf.load(copy.deepcopy(settings.SAML_CONFIG))
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/saml2/config.py", line 338, in load
+    self.load_complex(cnf)
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/saml2/config.py", line 272, in load_complex
+    self.setattr("", "metadata", self.load_metadata(cnf["metadata"]))
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/saml2/config.py", line 392, in load_metadata
+    mds.imp(metadata_conf)
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/saml2/mdstore.py", line 1124, in imp
+    self.load(key, **val)
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/saml2/mdstore.py", line 1100, in load
+    _md.load()
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/saml2/mdstore.py", line 867, in load
+    response = self.http.send(self.url)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/saml2/httpbase.py", line 236, in send
+    raise ConnectionError(f"{exc}")
+saml2.httpbase.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+ERROR:django.request:Internal Server Error: /saml2/login/
+Traceback (most recent call last):
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/urllib3/connection.py", line 565, in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/http/client.py", line 1428, in getresponse
+    response.begin()
+  File "/usr/lib/python3.12/http/client.py", line 331, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/http/client.py", line 300, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/urllib3/util/retry.py", line 474, in increment
+    raise reraise(type(error), error, _stacktrace)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/urllib3/util/util.py", line 38, in reraise
+    raise value.with_traceback(tb)
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/urllib3/connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/urllib3/connection.py", line 565, in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/http/client.py", line 1428, in getresponse
+    response.begin()
+  File "/usr/lib/python3.12/http/client.py", line 331, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/http/client.py", line 300, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/saml2/httpbase.py", line 233, in send
+    r = requests.request(method, url, **_kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/requests/adapters.py", line 682, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/django/views/generic/base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/django/utils/decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/djangosaml2/views.py", line 89, in wrapper
+    return csp_handler(view)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/django/views/generic/base.py", line 144, in dispatch
+    return handler(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/djangosaml2/views.py", line 221, in get
+    conf = self.get_sp_config(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/djangosaml2/views.py", line 127, in get_sp_config
+    return get_config(self.get_config_loader_path(request), request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/djangosaml2/conf.py", line 71, in get_config
+    return config_loader(request)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/djangosaml2/conf.py", line 48, in config_settings_loader
+    conf.load(copy.deepcopy(settings.SAML_CONFIG))
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/saml2/config.py", line 338, in load
+    self.load_complex(cnf)
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/saml2/config.py", line 272, in load_complex
+    self.setattr("", "metadata", self.load_metadata(cnf["metadata"]))
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/saml2/config.py", line 392, in load_metadata
+    mds.imp(metadata_conf)
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/saml2/mdstore.py", line 1124, in imp
+    self.load(key, **val)
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/saml2/mdstore.py", line 1100, in load
+    _md.load()
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/saml2/mdstore.py", line 867, in load
+    response = self.http.send(self.url)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shelby70/Downloads/saml/sp2/env/lib/python3.12/site-packages/saml2/httpbase.py", line 236, in send
+    raise ConnectionError(f"{exc}")
+saml2.httpbase.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+[02/Sep/2025 15:01:18] "GET / HTTP/1.1" 200 4396
+Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING:django.request:Not Found: /.well-known/appspecific/com.chrome.devtools.json
+[02/Sep/2025 15:01:23] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 2952
+WARNING:saml2.client_base:The SAML service provider accepts unsigned SAML Responses and Assertions. This configuration is insecure. Consider setting want_assertions_signed, want_response_signed or want_assertions_or_response_signed configuration options.
+[02/Sep/2025 15:01:30] "GET /saml2/login/ HTTP/1.1" 200 1198
+[02/Sep/2025 15:02:25] "GET / HTTP/1.1" 200 4396
+WARNING:saml2.client_base:The SAML service provider accepts unsigned SAML Responses and Assertions. This configuration is insecure. Consider setting want_assertions_signed, want_response_signed or want_assertions_or_response_signed configuration options.
+[02/Sep/2025 15:02:42] "GET /saml2/login/ HTTP/1.1" 200 1198
+WARNING:saml2.client_base:The SAML service provider accepts unsigned SAML Responses and Assertions. This configuration is insecure. Consider setting want_assertions_signed, want_response_signed or want_assertions_or_response_signed configuration options.
+INFO:saml2.response:Subject NameID: <saml:NameID xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" SPNameQualifier="http://localhost:8001/saml2/metadata/" Format="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified">admin</saml:NameID>
+INFO:saml2.attribute_converter:Unknown attribute name: <saml:Attribute xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="urn:oid:1.2.840.113549.1.9.1.1" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" FriendlyName="email"><saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">admin@example.com</saml:AttributeValue></saml:Attribute>
+INFO:saml2.attribute_converter:Unknown attribute name: <saml:Attribute xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="first_name" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri"><saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">Admin</saml:AttributeValue></saml:Attribute>
+INFO:saml2.attribute_converter:Unknown attribute name: <saml:Attribute xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="last_name" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri"><saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">User</saml:AttributeValue></saml:Attribute>
+INFO:saml2.attribute_converter:Unknown attribute name: <saml:Attribute xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="username" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri"><saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">admin</saml:AttributeValue></saml:Attribute>
+INFO:saml2.client_base:--- ADDED person info ----
+[02/Sep/2025 15:02:45] "POST /saml2/acs/ HTTP/1.1" 302 0
+[02/Sep/2025 15:02:45] "GET / HTTP/1.1" 200 4893
+WARNING:saml2.client_base:The SAML service provider accepts unsigned SAML Responses and Assertions. This configuration is insecure. Consider setting want_assertions_signed, want_response_signed or want_assertions_or_response_signed configuration options.
+INFO:saml2.response:Subject NameID: <saml:NameID xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" SPNameQualifier="http://localhost:8001/saml2/metadata/" Format="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified">admin</saml:NameID>
+INFO:saml2.attribute_converter:Unknown attribute name: <saml:Attribute xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="urn:oid:1.2.840.113549.1.9.1.1" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri" FriendlyName="email"><saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">admin@example.com</saml:AttributeValue></saml:Attribute>
+INFO:saml2.attribute_converter:Unknown attribute name: <saml:Attribute xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="first_name" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri"><saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">Admin</saml:AttributeValue></saml:Attribute>
+INFO:saml2.attribute_converter:Unknown attribute name: <saml:Attribute xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="last_name" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri"><saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">User</saml:AttributeValue></saml:Attribute>
+INFO:saml2.attribute_converter:Unknown attribute name: <saml:Attribute xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="username" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri"><saml:AttributeValue xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">admin</saml:AttributeValue></saml:Attribute>
+INFO:saml2.client_base:--- ADDED person info ----
+[02/Sep/2025 15:03:02] "GET / HTTP/1.1" 200 4893
+[02/Sep/2025 15:03:10] "GET / HTTP/1.1" 200 4396
+[02/Sep/2025 15:05:59] "GET /logout/ HTTP/1.1" 302 0
+[02/Sep/2025 15:05:59] "GET / HTTP/1.1" 200 4396

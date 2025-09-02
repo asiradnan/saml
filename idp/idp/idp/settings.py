@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from urllib.parse import urlparse
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +27,16 @@ SECRET_KEY = 'django-insecure-9o7ks5d+dyku@bx0o-tom)8+_68do^vs2*h8n%3cs)14-h%^=x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['idp.asiradnan.com', 'localhost', '127.0.0.1']
+# Base URL can be swapped via environment variable
+# Examples:
+#   Production: https://idp.asiradnan.com
+#   Local: http://localhost:9000
+BASE_URL = os.environ.get('IDP_BASE_URL', 'https://idp.asiradnan.com').rstrip('/')
+
+# Derive allowed host from BASE_URL plus local dev hosts
+_parsed = urlparse(BASE_URL)
+_derived_host = _parsed.netloc
+ALLOWED_HOSTS = [_derived_host, 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -129,21 +140,22 @@ from saml2.saml import NAMEID_FORMAT_EMAILADDRESS, NAMEID_FORMAT_UNSPECIFIED
 from saml2.sigver import get_xmlsec_binary
 
 LOGIN_URL = '/login/'
-BASE_URL = 'https://idp.asiradnan.com'
+IS_HTTPS = BASE_URL.startswith('https://')
+SP1_BASE_URL = os.environ.get('SP1_BASE_URL', 'https://istiaque.me').rstrip('/')
+SP2_BASE_URL = os.environ.get('SP2_BASE_URL', 'https://asiradnan.me').rstrip('/')
 
-# Production security settings
-SECURE_SSL_REDIRECT = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_HSTS_SECONDS = 31536000  # 1 year
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
+# Security settings toggle based on scheme
+SECURE_SSL_REDIRECT = IS_HTTPS
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') if IS_HTTPS else None
+SECURE_HSTS_SECONDS = 31536000 if IS_HTTPS else 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = IS_HTTPS
+SECURE_HSTS_PRELOAD = IS_HTTPS
 
-# Additional security settings for production
-SECURE_CONTENT_TYPE_NOSNIFF = True
-SECURE_BROWSER_XSS_FILTER = True
-X_FRAME_OPTIONS = 'DENY'
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+SECURE_CONTENT_TYPE_NOSNIFF = True if IS_HTTPS else False
+SECURE_BROWSER_XSS_FILTER = True if IS_HTTPS else False
+X_FRAME_OPTIONS = 'DENY' if IS_HTTPS else 'SAMEORIGIN'
+CSRF_COOKIE_SECURE = IS_HTTPS
+SESSION_COOKIE_SECURE = IS_HTTPS
 
 SAML_IDP_CONFIG = {
     'debug' : True,  # Enable debug for troubleshooting
@@ -156,12 +168,12 @@ SAML_IDP_CONFIG = {
             'name': 'Django localhost IdP',
             'endpoints': {
                 'single_sign_on_service': [
-                    ('https://idp.asiradnan.com/idp/sso/post/', saml2.BINDING_HTTP_POST),
-                    ('https://idp.asiradnan.com/idp/sso/redirect/', saml2.BINDING_HTTP_REDIRECT),
+                    (f'{BASE_URL}/idp/sso/post/', saml2.BINDING_HTTP_POST),
+                    (f'{BASE_URL}/idp/sso/redirect/', saml2.BINDING_HTTP_REDIRECT),
                 ],
                 "single_logout_service": [
-                    ("https://idp.asiradnan.com/idp/slo/post/", saml2.BINDING_HTTP_POST),
-                    ("https://idp.asiradnan.com/idp/slo/redirect/", saml2.BINDING_HTTP_REDIRECT)
+                    (f"{BASE_URL}/idp/slo/post/", saml2.BINDING_HTTP_POST),
+                    (f"{BASE_URL}/idp/slo/redirect/", saml2.BINDING_HTTP_REDIRECT)
                 ],
             },
             'name_id_format': [NAMEID_FORMAT_EMAILADDRESS, NAMEID_FORMAT_UNSPECIFIED],
@@ -181,16 +193,15 @@ SAML_IDP_CONFIG = {
     }],
     'valid_for': 365 * 24,
     
-    # Add metadata configuration to trust SP certificates
-    'metadata': {
-        'local': [str(BASE_DIR / 'sp_metadata.xml')],
-    },
+    # Note: We rely on DB-registered ServiceProvider records for trust.
+    # Avoid remote metadata fetching here to prevent request stalls.
+    # 'metadata': { ... }
 }
 
 # Additional SAML IdP Settings
 SAML_IDP_SPCONFIG = {
     # Service Provider 1 - istiaque.me
-    'https://istiaque.me/saml2/metadata/': {
+    os.environ.get('SP1_BASE_URL', 'https://istiaque.me').rstrip('/') + '/saml2/metadata/': {
         'processor': 'idp_app.processors.CustomSAMLProcessor',
         'attribute_mapping': {
             'email': 'email',
@@ -202,7 +213,7 @@ SAML_IDP_SPCONFIG = {
         }
     },
     # Service Provider 2 - asiradnan.me
-    'https://asiradnan.me/saml2/metadata/': {
+    os.environ.get('SP2_BASE_URL', 'https://asiradnan.me').rstrip('/') + '/saml2/metadata/': {
         'processor': 'idp_app.processors.CustomSAMLProcessor',
         'attribute_mapping': {
             'email': 'email',
