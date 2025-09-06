@@ -50,7 +50,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+MIDDLEWARE.append('djangosaml2.middleware.SamlSessionMiddleware')
+SAML_SESSION_COOKIE_NAME = 'saml_session'
+SAML_SESSION_COOKIE_SAMESITE = 'None'
 ROOT_URLCONF = 'idp.urls'
 
 TEMPLATES = [
